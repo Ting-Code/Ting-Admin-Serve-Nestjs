@@ -8,7 +8,6 @@ export class Admin {
   @ApiProperty({description: 'admin-id'})
   id: number;
 
-
   @Column({ length: 255 })
   @ApiProperty({description: '用户名'})
   username: string;

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Response } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Response } from "@nestjs/common";
 import { AdminService } from "@libs/db/models/admin/admin.service";
 import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { Config } from "../../config/config";
@@ -13,26 +13,14 @@ import { Admin } from "@libs/db/models/admin/admin.entity";
 
  @Get()
  @ApiOperation({ summary: "用户列表", operationId: "list" })
- @ApiQuery({
-  name: "查询用户列表",
-  type: String,
-  required: false,
-  description: "不传值"
- })
  async index() {
   return {
    data: await this.adminService.find(),
   }
  }
 
- @Post('add')
- @ApiOperation({ summary: "增加用户", operationId: "list" })
- @ApiQuery({
-  name: "增加用户",
-  type: String,
-  required: false,
-  description: "传入用户信息option"
- })
+ @Post()
+ @ApiOperation({ summary: "增加用户"})
  async add(@Body() body:Admin) {
   const result = await this.adminService.add(body);
   return {
@@ -41,61 +29,40 @@ import { Admin } from "@libs/db/models/admin/admin.entity";
   };
  }
 
- @Get('read')
- @ApiOperation({ summary: "显示指导用户信息", operationId: "list" })
- @ApiQuery({
-  name: "查询用户",
-  type: String,
-  required: false,
-  description: "传值查询id用户"
- })
- async read(@Query() query) {
+ @Get(":id")
+ @ApiOperation({ summary: "显示指导用户信息" })
+ async read(@Param("id") id: string) {
   try {
-   return await this.adminService.find(query);
+   let uid = parseInt(id)
+   return await this.adminService.find({id: uid});
   } catch (err) {
    return err;
   }
  }
 
- @Post('edit')
- @ApiOperation({ summary: "修改用户信息", operationId: "list" })
- @ApiQuery({
-  name: "修改用户",
-  type: String,
-  required: false,
-  description: "传值更新的数据"
- })
- async edit(@Body() body, @Response() res) {
-  let id = body._id;
+ @Put(":id")
+ @ApiOperation({ summary: "修改用户信息"})
+ async edit(@Param("id") id: string, @Body() body:Admin) {
+  let uid = parseInt(id);
   let password = body.password;
-
   if (password !== '') {
    if (password.length < 6) {
     // this.toolsService.error(res, '密码长度不合法', `/${Config.adminPath}/manager/edit?id=${id}`);
     return;
    } else {
     // password=this.toolsService.getMd5(password);
-    await this.adminService.update({ "id": id }, {
-    });
+    await this.adminService.update({ "id": uid }, { ...body });
    }
   } else {
-   await this.adminService.update({ "id": id }, { ...body });
+   await this.adminService.update({ "id": uid }, { ...body });
   }
-  res.send('')
  }
 
- @Get('delete')
- @ApiOperation({ summary: "删除单条用户信息", operationId: "delete" })
- @ApiQuery({
-  name: "删除用户",
-  type: String,
-  required: false,
-  description: "传值删除的用户id"
- })
- async delete(@Query() query) {
+ @Delete(":id")
+ @ApiOperation({ summary: "删除单条用户信息"})
+ async delete(@Param("id") id: string) {
   try {
-   let result = await this.adminService.delete({ "id": query.id });
-   return '删除成功'
+   return await this.adminService.delete({ "id": parseInt(id) })
   } catch (err) {
    return err;
   }
