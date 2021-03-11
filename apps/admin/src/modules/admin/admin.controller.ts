@@ -42,8 +42,8 @@ import { Admin } from "@libs/db/models/admin/admin.entity";
 
  @Put(":id")
  @ApiOperation({ summary: "修改用户信息"})
- async edit(@Param("id") id: string, @Body() body:Admin) {
-  let uid = parseInt(id);
+ async edit(@Param("id") id: number, @Body() body:Admin) {
+  // let uid = parseInt(id);
   let password = body.password;
   if (password !== '') {
    if (password.length < 6) {
@@ -51,10 +51,10 @@ import { Admin } from "@libs/db/models/admin/admin.entity";
     return;
    } else {
     // password=this.toolsService.getMd5(password);
-    await this.adminService.update({ "id": uid }, { ...body });
+    return await this.adminService.update({ "id": id }, { ...body });
    }
   } else {
-   await this.adminService.update({ "id": uid }, { ...body });
+   return await this.adminService.update({ "id": id }, { ...body });
   }
  }
 

@@ -22,7 +22,7 @@ export class AdminService {
     }
   }
 
-  async add(json:AdminInterface){
+  async add(json: AdminInterface){
     try {
       await this.adminRepository.save(json);
 

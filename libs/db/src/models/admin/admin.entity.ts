@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
 
@@ -32,6 +32,18 @@ export class Admin {
   @Column("varchar",{ length: 255 })
   number: string;
 
+  @ApiProperty({description: '超级管理员'})
+  @Column('int', {default: 0})
+  is_super: number;
+
+  @ApiProperty({description: '角色ID'})
+  @Column('int')
+  role_id: number;
+
+  @ApiProperty({description: '角色名'})
+  @Column('varchar')
+  role_name: string;
+
   @ApiProperty({description: '状态'})
   @Column('int')
   status: number;
@@ -41,11 +53,16 @@ export class Admin {
   describe: string;
 
   @ApiProperty({description: '创建时间'})
-  @Column('int')
-  create_time: number;
-
+  @Column({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  create_time: Date;
   @ApiProperty({description: '更新时间'})
-  @Column()
-  update_time: number;
+  @Column({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  update_time: Date;
 
 }
