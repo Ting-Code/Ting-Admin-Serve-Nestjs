@@ -8,8 +8,8 @@ import { Config } from "../../config/config";
 //创建目录
 import * as mkdirp from "mkdirp";
 import { createWriteStream } from "fs";
-const Jimp = require('jimp');
-
+// const Jimp = require('jimp');
+import * as Jimp from "jimp"
 
 @Injectable()
 export class ToolsService {

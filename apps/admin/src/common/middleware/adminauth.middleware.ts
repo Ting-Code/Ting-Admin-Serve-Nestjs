@@ -6,15 +6,15 @@ import * as jwt from "jsonwebtoken";
 export class AdminauthMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
 
-    const data = auth(req);
-    const decoded = jwt.verify(data.name, "admin")
-    console.log()
-    if (true) {
-      next();
-
-    } else {
-        res.send();
-    }
+    // const data = auth(req);
+    // const decoded = jwt.verify(data.name, "admin")
+    // console.log()
+    // if (true) {
+    //   next();
+    //
+    // } else {
+    //     res.send();
+    // }
     next();
   }
 }

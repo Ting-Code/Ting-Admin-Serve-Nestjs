@@ -1,12 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, Response } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { AdminService } from "@libs/db/models/admin/admin.service";
-import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Config } from "../../config/config";
-import { Admin } from "@libs/db/models/admin/admin.entity";
+import { AdminDto } from "./admin.dto";
+import { hashSync } from "bcryptjs";
 
-@Controller(`${Config.adminPath}/admin`)
- @ApiTags('admin控制器')
- export class AdminController {
+@Controller(`${Config.adminPath}/auth`)
+@ApiTags('admin控制器')
+export class AdminController {
 
  constructor(private adminService: AdminService) {
  }
@@ -21,11 +22,21 @@ import { Admin } from "@libs/db/models/admin/admin.entity";
 
  @Post()
  @ApiOperation({ summary: "增加用户"})
- async add(@Body() body:Admin) {
+ async add(@Body() body:AdminDto) {
+  try {
+   if(body.password !== '' || body.password.length>3){
+      body.password = hashSync(body.password)
+   }else {
+    return {code:400,msg:"密码格式错误"}
+   }
+  }catch (error){
+   throw new BadRequestException({code:400,msg:"密码不能为空"})
+  }
   const result = await this.adminService.add(body);
   return {
-   cateList: result,
-   body
+    code:200,
+    msg: "添加成功",
+    body
   };
  }
 
@@ -42,11 +53,11 @@ import { Admin } from "@libs/db/models/admin/admin.entity";
 
  @Put(":id")
  @ApiOperation({ summary: "修改用户信息"})
- async edit(@Param("id") id: number, @Body() body:Admin) {
+ async edit(@Param("id") id: number, @Body() body:AdminDto) {
   // let uid = parseInt(id);
   let password = body.password;
   if (password !== '') {
-   if (password.length < 6) {
+   if (password.length < 3) {
     // this.toolsService.error(res, '密码长度不合法', `/${Config.adminPath}/manager/edit?id=${id}`);
     return;
    } else {
