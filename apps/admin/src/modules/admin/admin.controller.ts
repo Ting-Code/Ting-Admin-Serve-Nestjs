@@ -76,9 +76,9 @@ export class AdminController {
 
  @Delete(":id")
  @ApiOperation({ summary: "删除单条用户信息"})
- async delete(@Param("id") id: string, @Response() res) {
+ async delete(@Param("id") id: number, @Response() res) {
   try {
-   await this.adminService.delete({ "id": parseInt(id) })
+   await this.adminService.delete({ "id": id })
    await this.toolsService.success(res)
   } catch (err) {
    await this.toolsService.error(res)

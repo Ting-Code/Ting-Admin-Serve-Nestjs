@@ -4,9 +4,13 @@ import { DbService } from './db.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from "@libs/db/models/admin/admin.entity";
 import { AdminService } from './models/admin/admin.service';
+import { RoleService } from './models/role/role.service';
+import { RoleEntity } from "@libs/db/models/role/role.entity";
+import { AccessService } from './models/access/access.service';
+import { AccessEntity } from "@libs/db/models/access/access.entity";
 
 
-const Entitys = TypeOrmModule.forFeature([Admin])
+const Entitys = TypeOrmModule.forFeature([Admin, RoleEntity, AccessEntity])
 
 @Global()
 @Module({
@@ -28,11 +32,11 @@ const Entitys = TypeOrmModule.forFeature([Admin])
 
       database: 'hmjd',
       // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      entities: [Admin],
+      entities: [Admin, RoleEntity, AccessEntity],
       synchronize: true,
     }),
   ],
-  providers: [DbService, AdminService],
-  exports: [Entitys, DbService, AdminService],
+  providers: [DbService, AdminService, RoleService, AccessService],
+  exports: [Entitys, DbService, AdminService, RoleService, AccessService],
 })
 export class DbModule {}

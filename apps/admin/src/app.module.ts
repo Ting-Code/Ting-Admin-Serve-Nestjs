@@ -6,10 +6,13 @@ import { AdminauthMiddleware } from "./common/middleware/adminauth.middleware";
 import { Config } from "./config/config";
 import { LoginModule } from './modules/login/login.module';
 import { ToolsService } from "./common/tools/tools.service";
+import { RoleModule } from './modules/role/role.module';
+import { AccessModule } from './modules/access/access.module';
+
 
 
 @Module({
-  imports: [AdminModule, LoginModule],
+  imports: [AdminModule, LoginModule, RoleModule, AccessModule],
   controllers: [AppController],
   providers: [AppService, ToolsService],
   exports: [ToolsService]
