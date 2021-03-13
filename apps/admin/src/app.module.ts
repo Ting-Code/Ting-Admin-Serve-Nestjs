@@ -6,6 +6,7 @@ import { AdminauthMiddleware } from "./common/middleware/adminauth.middleware";
 import { Config } from "./config/config";
 import { LoginModule } from './modules/login/login.module';
 
+
 @Module({
   imports: [AdminModule, LoginModule],
   controllers: [AppController],

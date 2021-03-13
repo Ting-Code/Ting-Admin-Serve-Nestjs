@@ -4,14 +4,14 @@ import { AdminService } from "@libs/db/models/admin/admin.service";
 import { PassportModule } from "@nestjs/passport";
 import { DbModule } from "@libs/db";
 import { LocalStrategy } from "./local.strategy";
-// import { JwtModule } from "@nestjs/jwt";
-import { CommonModule } from "@libs/common";
 import { ToolsService } from "../../common/tools/tools.service";
+import { CommonModule } from "@libs/common";
+import { JwtStrategy } from "../../common/guards/jwt.strategy";
 
 
 @Module({
   imports: [DbModule, PassportModule, CommonModule],
   controllers: [LoginController],
-  providers: [AdminService, LocalStrategy, ToolsService]
+  providers: [AdminService, LocalStrategy, ToolsService, JwtStrategy]
 })
 export class LoginModule {}

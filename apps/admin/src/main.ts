@@ -33,7 +33,7 @@ async function bootstrap() {
     .setTitle('后台管理系统')
     .setDescription('后台管理系统API接口文档')
     .setVersion('1.0 版本')
-    // .addBearerAuth()//启用token验证功能
+    .addBearerAuth()//启用token验证功能
     //.addTag('cats')添加一个
     .build();
   const document = SwaggerModule.createDocument(app, config);

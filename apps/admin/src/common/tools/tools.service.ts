@@ -19,25 +19,25 @@ export class ToolsService {
       fontSize: 50,
       width: 100,
       height: 40,
-      background: "#cc9966"
+      background: "#c7ecee"
     });
   }
   getMd5(str:string){
     return md5(str)
   }
-  async success(data:any={}, msg:string="success", code:number=200 ){
-      return {
+  async success(res, data:any={}, msg:string="success", code:number=200 ){
+      res.send({
         code,
         data,
         msg
-      }
+      })
   }
-  async error(data:any={},msg:string|object="error",code:number=400){
-    return {
+  async error(res, data:any={},msg:string|object="error",code:number=400){
+    res.send({
       code,
       data,
       msg
-    }
+    })
   }
 
   //获取时间戳

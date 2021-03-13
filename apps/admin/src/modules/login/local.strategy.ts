@@ -18,13 +18,13 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local'){
 
   //自动调用传给他
   async validate(username: string, password: string){
-    const user = await  this.adminRepository.findOne({username})
+    const user = await  this.adminRepository.findOne({"username":username})
     if (!user){
       //抛出异常
       throw new BadRequestException({msg:"用户名不存在",code:200})
     }
     //对比校验
-    if(!compareSync(username, user.password)){
+    if(!compareSync(password, user.password)){
       throw new BadRequestException({msg:"密码错误", code:200})
     }
     //成功就返回对应数据
