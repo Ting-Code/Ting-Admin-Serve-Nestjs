@@ -19,13 +19,13 @@ export class LoginController {
     private toolsService: ToolsService) { }
 
   @Get('code')
-  @ApiOperation({ summary: "获取验证码"})
-  getCode(@Request() req, @Response() res) {
+  @ApiOperation({ summary: "获取验证码" })
+  async getCode(@Request() req, @Response() res) {
     let svgCaptcha = this.toolsService.getCaptcha();
     //设置session
     req.session.code = svgCaptcha.text;
     res.type('image/svg+xml');
-    res.send(svgCaptcha.data);
+    await this.toolsService.success(res, svgCaptcha.data)
   }
 
   @Post()
@@ -36,12 +36,12 @@ export class LoginController {
       const code: string = body.code;
       if (code.toUpperCase() === req.session.code.toUpperCase() ) {
         const token = this.jwtService.sign(body.username.toString())
-          res.send({ data:token, msg: "登录成功", code: 200 })
+          await this.toolsService.success(res, token)
         } else {
-        res.send({ msg: "验证码错误", code: 400});
+          await this.toolsService.error(res,  "验证码错误")
         }
     } catch (error) {
-      res.send({ msg: "登录失败", code: 400});
+      await this.toolsService.error(res,"登录错误", error)
     }
   }
 

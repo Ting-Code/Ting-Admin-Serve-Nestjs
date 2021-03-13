@@ -18,6 +18,9 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local'){
 
   //自动调用传给他
   async validate(username: string, password: string){
+    if(username === "" || password === ""){
+      throw new BadRequestException({msg:"请输入登录名和密码",code:200})
+    }
     const user = await  this.adminRepository.findOne({"username":username})
     if (!user){
       //抛出异常

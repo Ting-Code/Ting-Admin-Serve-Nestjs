@@ -8,8 +8,8 @@ import { Config } from "../../config/config";
 //创建目录
 import * as mkdirp from "mkdirp";
 import { createWriteStream } from "fs";
-// const Jimp = require('jimp');
-import * as Jimp from "jimp"
+const Jimp = require('jimp');
+// import * as Jimp from "jimp"
 
 @Injectable()
 export class ToolsService {
@@ -26,13 +26,15 @@ export class ToolsService {
     return md5(str)
   }
   async success(res, data:any={}, msg:string="success", code:number=200 ){
+      res.status(200);
       res.send({
         code,
         data,
         msg
       })
   }
-  async error(res, data:any={},msg:string|object="error",code:number=400){
+  async error(res, msg:string|object="error", data:any={}, code:number=400){
+    res.status(400);
     res.send({
       code,
       data,

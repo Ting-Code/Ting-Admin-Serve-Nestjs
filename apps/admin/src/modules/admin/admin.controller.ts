@@ -1,81 +1,87 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
 import { AdminService } from "@libs/db/models/admin/admin.service";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Config } from "../../config/config";
 import { AdminDto } from "./admin.dto";
 import { hashSync } from "bcryptjs";
+import { ToolsService } from "../../common/tools/tools.service";
 
 @Controller(`${Config.adminPath}/auth`)
 @ApiTags('admin控制器')
 export class AdminController {
 
- constructor(private adminService: AdminService) {
+ constructor(private adminService: AdminService,
+             private toolsService: ToolsService
+             ) {
  }
 
  @Get()
  @ApiOperation({ summary: "用户列表", operationId: "list" })
- async index() {
-  return {
-   data: await this.adminService.find(),
-  }
+ async index(@Response() res) {
+   const data = await this.adminService.find();
+   await this.toolsService.success(res, data)
  }
 
  @Post()
  @ApiOperation({ summary: "增加用户"})
- async add(@Body() body:AdminDto) {
+ async add(@Body() body:AdminDto, @Response() res) {
   try {
    if(body.password !== '' || body.password.length>3){
       body.password = hashSync(body.password)
    }else {
-    return {code:400,msg:"密码格式错误"}
+    await this.toolsService.error(res, "密码格式错误")
    }
+   const data = await this.adminService.find({username: body.username});
+   if(data.length >= 1 || body.username === ""){
+    await this.toolsService.error(res, "用户已存在或错误")
+   }
+   await this.adminService.add(body);
+   await this.toolsService.success(res)
   }catch (error){
    throw new BadRequestException({code:400,msg:"密码不能为空"})
   }
-  const result = await this.adminService.add(body);
-  return {
-    code:200,
-    msg: "添加成功",
-    body
-  };
  }
 
  @Get(":id")
- @ApiOperation({ summary: "显示指导用户信息" })
- async read(@Param("id") id: string) {
+ @ApiOperation({ summary: "显示个人用户信息" })
+ async read(@Param("id") id: number, @Response() res) {
   try {
-   let uid = parseInt(id)
-   return await this.adminService.find({id: uid});
+   const data = await this.adminService.find({id: id});
+   await this.toolsService.success(res, data)
   } catch (err) {
-   return err;
+   await this.toolsService.error(res)
   }
  }
 
  @Put(":id")
  @ApiOperation({ summary: "修改用户信息"})
- async edit(@Param("id") id: number, @Body() body:AdminDto) {
-  // let uid = parseInt(id);
+ async edit(@Param("id") id: number, @Body() body:AdminDto, @Response() res) {
   let password = body.password;
-  if (password !== '') {
-   if (password.length < 3) {
-    // this.toolsService.error(res, '密码长度不合法', `/${Config.adminPath}/manager/edit?id=${id}`);
-    return;
+  try{
+   if (password !== '') {
+    if (password.length < 3) {
+     await this.toolsService.error(res, '密码长度不合法');
+    } else {
+     body.password = hashSync(body.password);//密码加密
+     await this.adminService.update({ "id": id }, { ...body });
+    }
    } else {
-    // password=this.toolsService.getMd5(password);
-    return await this.adminService.update({ "id": id }, { ...body });
+    await this.adminService.update({ "id": id }, { ...body });
    }
-  } else {
-   return await this.adminService.update({ "id": id }, { ...body });
+   await this.toolsService.success(res)
+  }catch (err){
+   await this.toolsService.error(res, "修改错误，请重新修改", err)
   }
  }
 
  @Delete(":id")
  @ApiOperation({ summary: "删除单条用户信息"})
- async delete(@Param("id") id: string) {
+ async delete(@Param("id") id: string, @Response() res) {
   try {
-   return await this.adminService.delete({ "id": parseInt(id) })
+   await this.adminService.delete({ "id": parseInt(id) })
+   await this.toolsService.success(res)
   } catch (err) {
-   return err;
+   await this.toolsService.error(res)
   }
  }
 }
