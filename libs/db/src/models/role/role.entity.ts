@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+const d = new Date()
 
 @Entity()
 export class RoleEntity {
@@ -8,16 +9,20 @@ export class RoleEntity {
   @Column({ length: 255 })
   role_name: string;
 
-  @Column('int')
+  @Column('int',{
+    default: 1
+  })
   status: number;
 
-  @Column("varchar",{ length: 255 })
+  @Column({
+    length: 255,
+    nullable: true
+  })
   describe: string;
 
   @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP",
+    default: d.getTime().toString(),
   })
-  create_time: Date;
+  create_time: string;
 
 }

@@ -2,7 +2,7 @@ import { Global, Module } from "@nestjs/common";
 import { DbService } from './db.service';
 //导入TypeOrmModule
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Admin } from "@libs/db/models/admin/admin.entity";
+import { AdminEntity } from "@libs/db/models/admin/admin.entity";
 import { AdminService } from './models/admin/admin.service';
 import { RoleService } from './models/role/role.service';
 import { RoleEntity } from "@libs/db/models/role/role.entity";
@@ -10,7 +10,7 @@ import { AccessService } from './models/access/access.service';
 import { AccessEntity } from "@libs/db/models/access/access.entity";
 
 
-const Entitys = TypeOrmModule.forFeature([Admin, RoleEntity, AccessEntity])
+const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity])
 
 @Global()
 @Module({
@@ -32,7 +32,7 @@ const Entitys = TypeOrmModule.forFeature([Admin, RoleEntity, AccessEntity])
 
       database: 'hmjd',
       // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      entities: [Admin, RoleEntity, AccessEntity],
+      entities: [AdminEntity, RoleEntity, AccessEntity],
       synchronize: true,
     }),
   ],

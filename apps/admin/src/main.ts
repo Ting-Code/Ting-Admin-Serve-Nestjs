@@ -8,6 +8,10 @@ import * as session from 'express-session';
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
+
+  const p = new Date()
+  console.log(p.getTime());
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   //配置静态资源目录
   app.useStaticAssets(path.join(__dirname, '..', 'public'));

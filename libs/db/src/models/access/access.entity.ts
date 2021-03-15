@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+const d = new Date()
 
 @Entity()
 export class AccessEntity {
@@ -17,22 +18,28 @@ export class AccessEntity {
   @Column('int')
   module_id: number;
 
-  @Column('int')
+  @Column('int', {
+    default: 1
+  })
   status: number;
 
   @Column('int')
   type: number;
 
-  @Column('int')
+  @Column('int',{
+    default: 0
+  })
   sort: number;
 
-  @Column("varchar",{ length: 255 })
+  @Column({
+    length: 255,
+    nullable: true
+  })
   describe: string;
 
   @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP",
+    default: d.getTime().toString(),
   })
-  create_time: Date;
+  create_time: string;
 
 }

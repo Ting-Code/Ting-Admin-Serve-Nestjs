@@ -10,9 +10,6 @@ export class AccessDto {
   @ApiProperty({description: '权限操作名称'})
   action_name?: string;
 
-  @ApiProperty({description: '权限URL'})
-  url?: string;
-
   @ApiProperty({description: '权限父级id'})
   module_id?: number;
 
@@ -29,6 +26,9 @@ export class AccessDto {
   describe?: string;
 
   @ApiProperty({description: '创建时间'})
-  create_time?: Date;
+  create_time?: string;
+
+  @ApiProperty({description: '权限URL'})
+  url?: string;
 
 }

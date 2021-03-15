@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-
+const d = new Date();
 
 @Entity()
-export class Admin {
+export class AdminEntity {
   @PrimaryGeneratedColumn()//主键(自动更新)
   id: number;
 
@@ -12,16 +12,27 @@ export class Admin {
   @Column("varchar",{ length: 255 })
   password: string;
 
-  @Column("varchar",{ length: 255 })
+  @Column({
+    nullable: true,
+    length: 255
+  })
   nickname: string;
 
-  @Column('int')
+  @Column('int',{
+    nullable: true
+  })
   phone: number;
 
-  @Column("varchar",{ length: 255 })
+  @Column({
+    length: 255,
+    nullable: true
+  })
   branch: string;
 
-  @Column("varchar",{ length: 255 })
+  @Column({
+    length: 255,
+    nullable: true
+  })
   number: string;
 
   @Column('int', {default: 0})
@@ -30,24 +41,27 @@ export class Admin {
   @Column('int')
   role_id: number;
 
-  @Column('varchar')
+  @Column({
+    length: 255,
+    nullable: true
+  })
   role_name: string;
 
-  @Column('int')
+  @Column('int', {
+    default: 1,
+  })
   status: number;
 
-  @Column("varchar",{ length: 255 })
+  @Column({
+    length: 255 ,
+    nullable: true
+  })
   describe: string;
 
   @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP",
+    default: d.getTime().toString(),
   })
-  create_time: Date;
-  @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP",
-  })
-  update_time: Date;
+  create_time: string;
+
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Admin } from "@libs/db/models/admin/admin.entity";
+import { AdminEntity } from "@libs/db/models/admin/admin.entity";
 import { AdminInterface } from "@libs/db/models/admin/admin.interface";
 
 @Injectable()
@@ -9,8 +9,8 @@ export class AdminService {
 
   constructor(
     //引入数据库表示例赋值给articleRepository
-    @InjectRepository(Admin)
-    private readonly adminRepository: Repository<Admin>,
+    @InjectRepository(AdminEntity)
+    private readonly adminRepository: Repository<AdminEntity>,
 
   ) {}
   //如查找数据

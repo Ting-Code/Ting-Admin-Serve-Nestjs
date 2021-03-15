@@ -1,6 +1,6 @@
 import { IStrategyOptions, Strategy } from "passport-local";
 import { PassportStrategy } from "@nestjs/passport";
-import { Admin } from "@libs/db/models/admin/admin.entity";
+import { AdminEntity } from "@libs/db/models/admin/admin.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { BadRequestException } from "@nestjs/common";
@@ -8,8 +8,8 @@ import { compareSync } from "bcryptjs";
 
 //本地策略类
 export class LocalStrategy extends PassportStrategy(Strategy, 'local'){
-  constructor(    @InjectRepository(Admin)
-                  private readonly adminRepository: Repository<Admin>,) {
+  constructor(    @InjectRepository(AdminEntity)
+                  private readonly adminRepository: Repository<AdminEntity>,) {
     super({
       usernameField: 'username',
       passwordField: 'password'

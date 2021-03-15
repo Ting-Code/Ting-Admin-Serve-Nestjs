@@ -38,9 +38,6 @@ export class AdminDto {
   describe?: string;
 
   @ApiProperty({description: '创建时间'})
-  create_time?: Date;
-
-  @ApiProperty({description: '更新时间'})
-  update_time?: Date;
+  create_time?: string;
 
 }

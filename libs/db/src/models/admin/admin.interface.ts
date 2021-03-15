@@ -1,8 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-
 export interface AdminInterface {
   id?: number;
-  username?: string;
   password?: string;
   nickname?: string;
   phone?: number;
@@ -13,7 +10,7 @@ export interface AdminInterface {
   role_name?: string;
   status?: number;
   describe?: string;
-  create_time?: Date;
-  update_time?: Date;
+  create_time?: string;
+  username?: string;
 }
 
