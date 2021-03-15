@@ -28,16 +28,15 @@ export class RoleService {
 
       return [];
     } catch (error) {
-      return null;
+      return error;
     }
   }
 
   async update(json1:RoleDto,json2:RoleDto){
     try {
-      return  await this.RoleRepository.update(json1,json2);
-
+      return await this.RoleRepository.update(json1,json2);
     } catch (error) {
-      return null;
+      return error;
     }
   }
 
@@ -45,7 +44,7 @@ export class RoleService {
     try {
       return await this.RoleRepository.delete(json);
     } catch (error) {
-      return null;
+      return error;
     }
   }
 
