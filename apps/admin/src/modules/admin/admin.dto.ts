@@ -28,9 +28,6 @@ export class AdminDto {
   @ApiProperty({description: '角色ID'})
   role_id?: number;
 
-  @ApiProperty({description: '角色名'})
-  role_name?: string;
-
   @ApiProperty({description: '状态'})
   status?: number;
 

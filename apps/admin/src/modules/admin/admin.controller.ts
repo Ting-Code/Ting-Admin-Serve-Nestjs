@@ -18,7 +18,8 @@ export class AdminController {
  @Get()
  @ApiOperation({ summary: "用户列表", operationId: "list" })
  async index(@Response() res) {
-   const data = await this.adminService.find();
+   const data = await this.adminService.getModel()
+  console.log(data)
    await this.toolsService.success(res, data)
  }
 
@@ -56,7 +57,7 @@ export class AdminController {
  @Put(":id")
  @ApiOperation({ summary: "修改用户信息"})
  async edit(@Param("id") id: number, @Body() body:AdminDto, @Response() res) {
-  let password = body.password;
+  let { password, nickname, number, branch, role_id, phone } = body;
   try{
    if (password !== '') {
     if (password.length < 3) {
@@ -66,7 +67,7 @@ export class AdminController {
      await this.adminService.update({ "id": id }, { ...body });
     }
    } else {
-    await this.adminService.update({ "id": id }, { ...body });
+    await this.adminService.update({ "id": id }, { nickname, number, branch, role_id, phone });
    }
    await this.toolsService.success(res)
   }catch (err){

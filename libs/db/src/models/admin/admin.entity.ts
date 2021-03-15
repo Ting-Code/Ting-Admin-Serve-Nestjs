@@ -41,12 +41,6 @@ export class AdminEntity {
   @Column('int')
   role_id: number;
 
-  @Column({
-    length: 255,
-    nullable: true
-  })
-  role_name: string;
-
   @Column('int', {
     default: 1,
   })

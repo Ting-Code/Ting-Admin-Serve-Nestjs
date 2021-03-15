@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { getConnection, Repository } from "typeorm";
 import { AdminEntity } from "@libs/db/models/admin/admin.entity";
 import { AdminInterface } from "@libs/db/models/admin/admin.interface";
+import { RoleEntity } from "@libs/db/models/role/role.entity";
 
 @Injectable()
 export class AdminService {
@@ -49,8 +50,12 @@ export class AdminService {
     }
   }
 
-  getModel(){
-    return this.adminRepository;
+  async getModel() {
+    const posts = await getConnection()
+      .createQueryBuilder(AdminEntity, 'admin')
+      .leftJoinAndMapOne('admin.role', RoleEntity, 'role', 'admin.role_id=role.id')
+      .getManyAndCount()
+    return posts[0]
   }
 
 }

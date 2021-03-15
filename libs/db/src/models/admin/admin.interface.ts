@@ -7,7 +7,6 @@ export interface AdminInterface {
   number?: string;
   is_super?: number;
   role_id?: number;
-  role_name?: string;
   status?: number;
   describe?: string;
   create_time?: string;
