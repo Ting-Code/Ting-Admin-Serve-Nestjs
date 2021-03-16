@@ -17,8 +17,15 @@ export class AccessController {
   @Get()
   @ApiOperation({ summary: "权限列表", operationId: "list" })
   async index(@Response() res) {
-    const data = await this.accessService.find();
-    await this.toolsService.success(res, data)
+    const data = await this.accessService.getModel()
+    await this.toolsService.success(res, data[0])
+  }
+
+  @Get('module')
+  async module(@Response() res){
+    //获取模块列表
+    const result = await this.accessService.find({ "module_id": 0 });
+    await this.toolsService.success(res, result)
   }
 
   @Post()

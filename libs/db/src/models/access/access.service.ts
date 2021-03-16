@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { getConnection, Repository } from "typeorm";
 import { AccessEntity } from "@libs/db/models/access/access.entity";
 import { AccessDto } from "@libs/db/models/access/access.dto";
 
@@ -49,8 +49,12 @@ export class AccessService {
     }
   }
 
-  getModel(){
-    return this.accessRepository;
+  async getModel() {
+    const posts = await getConnection()
+      .createQueryBuilder(AccessEntity, 'access')
+      .leftJoinAndMapOne('access.son', AccessEntity, 'son', 'access.module_id=son.id')
+      .getManyAndCount()
+    return posts
   }
 
 }

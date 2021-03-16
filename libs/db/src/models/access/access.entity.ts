@@ -15,7 +15,9 @@ export class AccessEntity {
   @Column({ length: 255 })
   url: string;
 
-  @Column('int')
+  @Column('int',{
+    default: 0
+  })
   module_id: number;
 
   @Column('int', {
