@@ -8,11 +8,12 @@ import { LoginModule } from './modules/login/login.module';
 import { ToolsService } from "./common/tools/tools.service";
 import { RoleModule } from './modules/role/role.module';
 import { AccessModule } from './modules/access/access.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 
 
 @Module({
-  imports: [AdminModule, LoginModule, RoleModule, AccessModule],
+  imports: [AdminModule, LoginModule, RoleModule, AccessModule, AuthModule],
   controllers: [AppController],
   providers: [AppService, ToolsService],
   exports: [ToolsService]

@@ -19,7 +19,6 @@ export class AdminController {
  @ApiOperation({ summary: "用户列表", operationId: "list" })
  async index(@Response() res) {
    const data = await this.adminService.getModel()
-  console.log(data)
    await this.toolsService.success(res, data)
  }
 

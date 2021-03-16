@@ -52,7 +52,8 @@ export class AccessService {
   async getModel() {
     const posts = await getConnection()
       .createQueryBuilder(AccessEntity, 'access')
-      .leftJoinAndMapOne('access.son', AccessEntity, 'son', 'access.module_id=son.id')
+      .leftJoinAndMapMany('access.son', AccessEntity, 'son', 'access.id=son.module_id')
+      .where("access.module_id = :module_id",{ module_id: 0})
       .getManyAndCount()
     return posts
   }

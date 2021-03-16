@@ -8,9 +8,11 @@ import { RoleService } from './models/role/role.service';
 import { RoleEntity } from "@libs/db/models/role/role.entity";
 import { AccessService } from './models/access/access.service';
 import { AccessEntity } from "@libs/db/models/access/access.entity";
+import { AuthService } from './models/auth/auth.service';
+import { AuthEntity } from "@libs/db/models/auth/auth.entity";
 
 
-const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity])
+const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity])
 
 @Global()
 @Module({
@@ -32,11 +34,11 @@ const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity]
 
       database: 'hmjd',
       // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      entities: [AdminEntity, RoleEntity, AccessEntity],
+      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity],
       synchronize: true,
     }),
   ],
-  providers: [DbService, AdminService, RoleService, AccessService],
-  exports: [Entitys, DbService, AdminService, RoleService, AccessService],
+  providers: [DbService, AdminService, RoleService, AccessService, AuthService],
+  exports: [Entitys, DbService, AdminService, RoleService, AccessService, AuthService],
 })
 export class DbModule {}
