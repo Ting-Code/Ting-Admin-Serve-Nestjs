@@ -1,11 +1,11 @@
 import { Controller, Get, Request, Response, Post, Body, UseGuards, Req } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Config } from "../../config/config";
-import { ToolsService } from "../../common/tools/tools.service";
+import { Config } from "../../../config/config";
+import { ToolsService } from "../../../common/tools/tools.service";
 import { AuthGuard } from "@nestjs/passport";
 import { JwtService } from "@nestjs/jwt";
 import { LoginDto } from "./login.dto";
-import { Cuus } from "../../common/decorators/cuus.decorators";
+import { Cuus } from "../../../common/decorators/cuus.decorators";
 import { AdminInterface } from "@libs/db/models/admin/admin.interface";
 
 
@@ -35,8 +35,9 @@ export class LoginController {
     try {
       const code: string = body.code;
       if (code.toUpperCase() === req.session.code.toUpperCase() ) {
+        req.session.userinfo=body.username;
         const token = this.jwtService.sign(body.username.toString())
-          await this.toolsService.success(res, token)
+        await this.toolsService.success(res, token)
         } else {
           await this.toolsService.error(res,  "验证码错误")
         }

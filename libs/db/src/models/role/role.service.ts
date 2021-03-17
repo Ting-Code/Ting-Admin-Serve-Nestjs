@@ -9,7 +9,7 @@ export class RoleService {
 
   constructor(
     //引入数据库表示例赋值给articleRepository
-    @InjectRepository(RoleEntity)
+    @InjectRepository(RoleEntity, "mySql")
     private readonly RoleRepository: Repository<RoleEntity>,
 
   ) {}

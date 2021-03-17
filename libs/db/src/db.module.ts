@@ -10,8 +10,10 @@ import { AccessService } from './models/access/access.service';
 import { AccessEntity } from "@libs/db/models/access/access.entity";
 import { AuthEntity } from "@libs/db/models/auth/auth.entity";
 import { AuthService } from "@libs/db/models/auth/auth.service";
+import { MaterielEntity } from "@libs/db/models/materiel/materiel.entity";
 
-const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity])
+const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity], 'mySql')
+const Mssql = TypeOrmModule.forFeature([MaterielEntity], 'msSql')
 
 @Global()
 @Module({
@@ -19,25 +21,30 @@ const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity,
   imports: [Entitys,
     //配置数据库
     TypeOrmModule.forRoot({
+      name: 'mySql',
       type: 'mysql',
       host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'root',
-
-      // type: 'mssql',
-      // host: '127.0.0.1',
-      // port: 1433,
-      // username: 'TING',
-      // password: '1127163161',
-
       database: 'hmjd',
       // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
       entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity],
       synchronize: true,
-    }),
+    },),
+    TypeOrmModule.forRoot({
+      name: 'msSql',
+      type: 'mssql',
+      host: '127.0.0.1',
+      port: 1433,
+      username: 'TING',
+      password: '1127163161',
+      database: 'hmjd',
+      entities: [MaterielEntity],
+      synchronize: true,
+    },),
   ],
   providers: [DbService, AdminService, RoleService, AccessService, AuthService],
-  exports: [Entitys, DbService, AdminService, RoleService, AccessService, AuthService],
+  exports: [Mssql, Entitys, DbService, AdminService, RoleService, AccessService, AuthService],
 })
 export class DbModule {}

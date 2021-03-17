@@ -8,7 +8,7 @@ import { compareSync } from "bcryptjs";
 
 //本地策略类
 export class LocalStrategy extends PassportStrategy(Strategy, 'local'){
-  constructor(    @InjectRepository(AdminEntity)
+  constructor(    @InjectRepository(AdminEntity, "mySql")
                   private readonly adminRepository: Repository<AdminEntity>,) {
     super({
       usernameField: 'username',

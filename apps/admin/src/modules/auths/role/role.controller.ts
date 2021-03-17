@@ -1,8 +1,8 @@
 import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { RoleService } from "@libs/db/models/role/role.service";
-import { Config } from "../../config/config";
-import { ToolsService } from "../../common/tools/tools.service";
+import { Config } from "../../../config/config";
+import { ToolsService } from "../../../common/tools/tools.service";
 import { RoleDto } from "@libs/db/models/role/role.dto";
 
 @Controller(`${Config.adminPath}/role`)

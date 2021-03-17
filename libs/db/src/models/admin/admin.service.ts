@@ -10,7 +10,7 @@ export class AdminService {
 
   constructor(
     //引入数据库表示例赋值给articleRepository
-    @InjectRepository(AdminEntity)
+    @InjectRepository(AdminEntity, "mySql")
     private readonly adminRepository: Repository<AdminEntity>,
 
   ) {}

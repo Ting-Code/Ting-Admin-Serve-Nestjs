@@ -7,7 +7,7 @@ import { Repository } from "typeorm";
 
 //jwt策略类
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt'){
-  constructor(@InjectRepository(AdminEntity)
+  constructor(@InjectRepository(AdminEntity, "mySql")
               private readonly adminRepository: Repository<AdminEntity>,) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

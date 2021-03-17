@@ -9,7 +9,7 @@ export class AccessService {
 
   constructor(
     //引入数据库表示例赋值给articleRepository
-    @InjectRepository(AccessEntity)
+    @InjectRepository(AccessEntity, "mySql")
     private readonly accessRepository: Repository<AccessEntity>,
 
   ) {}

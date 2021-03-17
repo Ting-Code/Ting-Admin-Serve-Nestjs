@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Config } from "../../config/config";
-import { ToolsService } from "../../common/tools/tools.service";
+import { Config } from "../../../config/config";
 import { AuthService } from "@libs/db/models/auth/auth.service";
+import { ToolsService } from "../../../common/tools/tools.service";
 
 @Controller(`${Config.adminPath}/role/auth`)
 @ApiTags('角色授权')

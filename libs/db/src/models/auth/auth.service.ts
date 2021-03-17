@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
-import { getConnection, Repository, Transaction, TransactionRepository } from "typeorm";
+import { getConnection, Repository } from "typeorm";
 import { AuthEntity } from "@libs/db/models/auth/auth.entity";
+import { AdminService } from "@libs/db/models/admin/admin.service";
+import { AccessService } from "@libs/db/models/access/access.service";
 
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    @InjectRepository(AuthEntity)
+    @InjectRepository(AuthEntity, "mySql")
     private readonly authRepository: Repository<AuthEntity>,
+    private adminService: AdminService,
+    private accessService: AccessService
   ) {}
 
   async upAuth(id, data) {
@@ -37,6 +41,30 @@ export class AuthService {
 
   getAuth(id){
     return this.authRepository.find({role_id:id})
+  }
+
+  async checkAuth(req) {
+    //  1、获取当前用户的角色
+    const pathname: string = req.baseUrl.split("/")[2];
+    const userinfo = req.session.userinfo;
+    const data =await this.adminService.find({ username: userinfo })
+    if (data[0].is_super == 1 || pathname == 'login' || pathname == "main/welcome" || pathname == "main") {
+      return true;
+    }
+    // 2、根据角色获取当前角色的权限列表
+    let accessResult = await this.authRepository.find({ "role_id": data[0].role_id });
+    const roleAccessArray = [];
+    accessResult.forEach(value => {
+      roleAccessArray.push(value.access_id);
+    });
+    //   3、获取当前访问的url 对应的权限id
+    accessResult = await this.accessService.find({ "url": pathname });
+    if (accessResult.length > 0) {
+      // 4、判断当前访问的url对应的权限id 是否在权限列表中的id中
+      return roleAccessArray.indexOf(accessResult[0].id) !== -1;
+    } else {
+      return false;
+    }
   }
 
 }

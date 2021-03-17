@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AdminModule } from './modules/admin/admin.module';
+import { AdminModule } from './modules/auths/admin/admin.module';
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as path from "path";
@@ -8,9 +8,6 @@ import * as session from 'express-session';
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
-
-  const p = new Date()
-  console.log(p.getTime());
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   //配置静态资源目录

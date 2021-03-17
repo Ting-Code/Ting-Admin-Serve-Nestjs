@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Config } from "../../config/config";
-import { ToolsService } from "../../common/tools/tools.service";
+import { Config } from "../../../config/config";
+import { ToolsService } from "../../../common/tools/tools.service";
 import { AccessService } from "@libs/db/models/access/access.service";
 import { AccessDto } from "@libs/db/models/access/access.dto";
 
