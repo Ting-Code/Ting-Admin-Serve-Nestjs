@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn} from "typeorm";
-const d = new Date()
 
 @Entity()
 export class AuthEntity {
@@ -11,7 +10,5 @@ export class AuthEntity {
 
   @Column('int')
   role_id: number;
-
-
 
 }

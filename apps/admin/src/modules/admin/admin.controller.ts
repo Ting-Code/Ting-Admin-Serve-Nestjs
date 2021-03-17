@@ -70,7 +70,7 @@ export class AdminController {
    }
    await this.toolsService.success(res)
   }catch (err){
-   await this.toolsService.error(res, "修改错误，请重新修改", err)
+   await this.toolsService.error(res, "修改用户错误，请重新修改", err)
   }
  }
 

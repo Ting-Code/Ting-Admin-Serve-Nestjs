@@ -8,9 +8,8 @@ import { RoleService } from './models/role/role.service';
 import { RoleEntity } from "@libs/db/models/role/role.entity";
 import { AccessService } from './models/access/access.service';
 import { AccessEntity } from "@libs/db/models/access/access.entity";
-import { AuthService } from './models/auth/auth.service';
 import { AuthEntity } from "@libs/db/models/auth/auth.entity";
-
+import { AuthService } from "@libs/db/models/auth/auth.service";
 
 const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity])
 

@@ -1,54 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { getConnection, Repository, Transaction, TransactionRepository } from "typeorm";
 import { AuthEntity } from "@libs/db/models/auth/auth.entity";
-import { AccessDto } from "@libs/db/models/access/access.dto";
+
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    //引入数据库表示例赋值给articleRepository
     @InjectRepository(AuthEntity)
-    private readonly AuthRepository: Repository<AuthEntity>,
+    private readonly authRepository: Repository<AuthEntity>,
   ) {}
-  //如查找数据
-  async find(json:AccessDto = {}){
+
+  async upAuth(id, data) {
+    // 获取连接并创建新的queryRunner
+    const connection = getConnection();
+    const queryRunner = connection.createQueryRunner();
+    // 使用我们的新queryRunner建立真正的数据库连
+    await queryRunner.connect();
+    // 开始事务：
+    await queryRunner.startTransaction();
     try {
-      return await this.AuthRepository.find(json);
-    }catch (err){
-      return err;
+      await queryRunner.manager.delete(AuthEntity, {role_id: id})
+      for (let i=0; i<data.length; i++){
+        await queryRunner.manager.save(AuthEntity, {role_id: id, access_id:data[i]})
+      }
+      // 提交事务：
+      await queryRunner.commitTransaction();
+      return true
+    } catch (err) {
+      //回滚事务
+      await queryRunner.rollbackTransaction();
+      return false
     }
   }
 
-  async add(json: AccessDto){
-    try {
-      await this.AuthRepository.save(json);
-
-      return [];
-    } catch (error) {
-      return error;
-    }
-  }
-
-  async update(json1:AccessDto,json2:AccessDto){
-    try {
-      return await this.AuthRepository.update(json1,json2);
-    } catch (error) {
-      return error;
-    }
-  }
-
-  async delete(json:AccessDto){
-    try {
-      return await this.AuthRepository.delete(json);
-    } catch (error) {
-      return error;
-    }
-  }
-
-  getModel(){
-    return this.AuthRepository;
+  getAuth(id){
+    return this.authRepository.find({role_id:id})
   }
 
 }
