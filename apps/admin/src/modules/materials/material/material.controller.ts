@@ -4,6 +4,7 @@ import { Config } from "../../../config/config";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { join } from "path";
+import { MatTypeDto } from "@libs/db/models/materials/mat-type/mat-type.dto";
 
 @Controller(`${Config.adminPath}/material`)
 @ApiTags('material物料模块')

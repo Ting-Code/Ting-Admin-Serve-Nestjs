@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
-import { AdminService } from "@libs/db/models/admin/admin.service";
+import { AdminService } from "@libs/db/models/auths/admin/admin.service";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Config } from "../../../config/config";
 import { AdminDto } from "./admin.dto";

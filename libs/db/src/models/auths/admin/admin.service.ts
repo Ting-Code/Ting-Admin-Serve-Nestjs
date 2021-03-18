@@ -1,16 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { getConnection, Repository } from "typeorm";
-import { AdminEntity } from "@libs/db/models/admin/admin.entity";
-import { AdminInterface } from "@libs/db/models/admin/admin.interface";
-import { RoleEntity } from "@libs/db/models/role/role.entity";
+import { AdminEntity } from "@libs/db/models/auths/admin/admin.entity";
+import { AdminInterface } from "@libs/db/models/auths/admin/admin.interface";
+import { RoleEntity } from "@libs/db/models/auths/role/role.entity";
 
 @Injectable()
 export class AdminService {
 
   constructor(
     //引入数据库表示例赋值给articleRepository
-    @InjectRepository(AdminEntity, "mySql")
+    @InjectRepository(AdminEntity)
     private readonly adminRepository: Repository<AdminEntity>,
 
   ) {}

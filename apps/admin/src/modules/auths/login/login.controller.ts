@@ -6,7 +6,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { JwtService } from "@nestjs/jwt";
 import { LoginDto } from "./login.dto";
 import { Cuus } from "../../../common/decorators/cuus.decorators";
-import { AdminInterface } from "@libs/db/models/admin/admin.interface";
+import { AdminInterface } from "@libs/db/models/auths/admin/admin.interface";
 
 
 

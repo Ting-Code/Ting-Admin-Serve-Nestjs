@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { RoleEntity } from "@libs/db/models/role/role.entity";
-import { RoleDto } from "@libs/db/models/role/role.dto";
+import { RoleEntity } from "@libs/db/models/auths/role/role.entity";
+import { RoleDto } from "@libs/db/models/auths/role/role.dto";
 
 @Injectable()
 export class RoleService {
 
   constructor(
     //引入数据库表示例赋值给articleRepository
-    @InjectRepository(RoleEntity, "mySql")
+    @InjectRepository(RoleEntity)
     private readonly RoleRepository: Repository<RoleEntity>,
 
   ) {}

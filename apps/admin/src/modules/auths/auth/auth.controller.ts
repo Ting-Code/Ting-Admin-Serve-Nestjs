@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Config } from "../../../config/config";
-import { AuthService } from "@libs/db/models/auth/auth.service";
+import { AuthService } from "@libs/db/models/auths/auth/auth.service";
 import { ToolsService } from "../../../common/tools/tools.service";
 
 @Controller(`${Config.adminPath}/role/auth`)

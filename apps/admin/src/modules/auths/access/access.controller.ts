@@ -2,8 +2,8 @@ import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, R
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Config } from "../../../config/config";
 import { ToolsService } from "../../../common/tools/tools.service";
-import { AccessService } from "@libs/db/models/access/access.service";
-import { AccessDto } from "@libs/db/models/access/access.dto";
+import { AccessService } from "@libs/db/models/auths/access/access.service";
+import { AccessDto } from "@libs/db/models/auths/access/access.dto";
 
 @Controller(`${Config.adminPath}/access`)
 @ApiTags('access权限表')

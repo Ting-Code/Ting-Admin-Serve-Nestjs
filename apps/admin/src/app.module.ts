@@ -10,11 +10,13 @@ import { RoleModule } from './modules/auths/role/role.module';
 import { AccessModule } from './modules/auths/access/access.module';
 import { AuthModule } from './modules/auths/auth/auth.module';
 import { MaterialModule } from './modules/materials/material/material.module';
+import { MatTypeModule } from './modules/materials/mat-type/mat-type.module';
+import { TypeTestModule } from './modules/materials/type-test/type-test.module';
 
 
 
 @Module({
-  imports: [AdminModule, LoginModule, RoleModule, AccessModule, AuthModule, MaterialModule],
+  imports: [AdminModule, LoginModule, RoleModule, AccessModule, AuthModule, MaterialModule, MatTypeModule, TypeTestModule],
   controllers: [AppController],
   providers: [AppService, ToolsService],
   exports: [ToolsService]

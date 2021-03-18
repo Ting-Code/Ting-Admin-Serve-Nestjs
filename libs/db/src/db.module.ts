@@ -2,17 +2,21 @@ import { Global, Module } from "@nestjs/common";
 import { DbService } from './db.service';
 //导入TypeOrmModule
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdminEntity } from "@libs/db/models/admin/admin.entity";
-import { AdminService } from './models/admin/admin.service';
-import { RoleService } from './models/role/role.service';
-import { RoleEntity } from "@libs/db/models/role/role.entity";
-import { AccessService } from './models/access/access.service';
-import { AccessEntity } from "@libs/db/models/access/access.entity";
-import { AuthEntity } from "@libs/db/models/auth/auth.entity";
-import { AuthService } from "@libs/db/models/auth/auth.service";
-import { MaterielEntity } from "@libs/db/models/materiel/materiel.entity";
+import { AdminEntity } from "@libs/db/models/auths/admin/admin.entity";
+import { AdminService } from './models/auths/admin/admin.service';
+import { RoleService } from './models/auths/role/role.service';
+import { RoleEntity } from "@libs/db/models/auths/role/role.entity";
+import { AccessService } from './models/auths/access/access.service';
+import { AccessEntity } from "@libs/db/models/auths/access/access.entity";
+import { AuthEntity } from "@libs/db/models/auths/auth/auth.entity";
+import { AuthService } from "@libs/db/models/auths/auth/auth.service";
+import { MaterielEntity } from "@libs/db/models/auths/materiel/materiel.entity";
+import { MatTypeService } from './models/materials/mat-type/mat-type.service';
+import { MatTypeEntity } from "@libs/db/models/materials/mat-type/mat-type.entity";
+import { TypeTestService } from './models/materials/type-test/type-test.service';
+import { TypeTestEntity } from "@libs/db/models/materials/type-test/type-test.entity";
 
-const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity], 'mySql')
+const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity])
 const Mssql = TypeOrmModule.forFeature([MaterielEntity], 'msSql')
 
 @Global()
@@ -21,7 +25,6 @@ const Mssql = TypeOrmModule.forFeature([MaterielEntity], 'msSql')
   imports: [Entitys,
     //配置数据库
     TypeOrmModule.forRoot({
-      name: 'mySql',
       type: 'mysql',
       host: 'localhost',
       port: 3306,
@@ -29,7 +32,7 @@ const Mssql = TypeOrmModule.forFeature([MaterielEntity], 'msSql')
       password: 'root',
       database: 'hmjd',
       // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity],
+      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity],
       synchronize: true,
     },),
     TypeOrmModule.forRoot({
@@ -44,7 +47,7 @@ const Mssql = TypeOrmModule.forFeature([MaterielEntity], 'msSql')
       synchronize: true,
     },),
   ],
-  providers: [DbService, AdminService, RoleService, AccessService, AuthService],
-  exports: [Mssql, Entitys, DbService, AdminService, RoleService, AccessService, AuthService],
+  providers: [DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService],
+  exports: [Mssql, Entitys, DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService],
 })
 export class DbModule {}

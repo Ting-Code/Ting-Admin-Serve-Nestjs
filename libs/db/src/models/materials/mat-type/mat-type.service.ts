@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { getConnection, Repository } from "typeorm";
-import { AccessEntity } from "@libs/db/models/access/access.entity";
-import { AccessDto } from "@libs/db/models/access/access.dto";
+import { MatTypeEntity } from "@libs/db/models/materials/mat-type/mat-type.entity";
+import { MatTypeDto } from "@libs/db/models/materials/mat-type/mat-type.dto";
 
 @Injectable()
-export class AccessService {
+export class MatTypeService {
 
   constructor(
     //引入数据库表示例赋值给articleRepository
-    @InjectRepository(AccessEntity, "mySql")
-    private readonly accessRepository: Repository<AccessEntity>,
+    @InjectRepository(MatTypeEntity)
+    private readonly accessRepository: Repository<MatTypeEntity>,
 
   ) {}
   //如查找数据
-  async find(json:AccessDto = {}){
+  async find(json:MatTypeDto = {}){
     try {
       return await this.accessRepository.find(json);
     }catch (err){
@@ -22,7 +22,7 @@ export class AccessService {
     }
   }
 
-  async add(json: AccessDto){
+  async add(json: MatTypeDto){
     try {
       await this.accessRepository.save(json);
 
@@ -32,7 +32,7 @@ export class AccessService {
     }
   }
 
-  async update(json1:AccessDto,json2:AccessDto){
+  async update(json1:MatTypeDto,json2:MatTypeDto){
     try {
       return  await this.accessRepository.update(json1,json2);
 
@@ -41,7 +41,7 @@ export class AccessService {
     }
   }
 
-  async delete(json:AccessDto){
+  async delete(json:MatTypeDto){
     try {
       return await this.accessRepository.delete(json);
     } catch (error) {
@@ -51,8 +51,8 @@ export class AccessService {
 
   async getModel() {
     const posts = await getConnection()
-      .createQueryBuilder(AccessEntity, 'access')
-      .leftJoinAndMapMany('access.son', AccessEntity, 'son', 'access.id=son.module_id')
+      .createQueryBuilder(MatTypeDto, 'access')
+      .leftJoinAndMapMany('access.son', MatTypeDto, 'son', 'access.id=son.module_id')
       .where("access.module_id = :module_id",{ module_id: 0})
       .getManyAndCount()
     return posts

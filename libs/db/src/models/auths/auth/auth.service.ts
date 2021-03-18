@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { getConnection, Repository } from "typeorm";
-import { AuthEntity } from "@libs/db/models/auth/auth.entity";
-import { AdminService } from "@libs/db/models/admin/admin.service";
-import { AccessService } from "@libs/db/models/access/access.service";
+import { AuthEntity } from "@libs/db/models/auths/auth/auth.entity";
+import { AdminService } from "@libs/db/models/auths/admin/admin.service";
+import { AccessService } from "@libs/db/models/auths/access/access.service";
 
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    @InjectRepository(AuthEntity, "mySql")
+    @InjectRepository(AuthEntity)
     private readonly authRepository: Repository<AuthEntity>,
     private adminService: AdminService,
     private accessService: AccessService
