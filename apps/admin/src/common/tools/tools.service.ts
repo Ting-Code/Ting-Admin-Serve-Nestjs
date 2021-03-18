@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import * as svgCaptcha from "svg-captcha";
 import * as md5 from "md5";
 //格式化日期
-// import { format } from "silly-datetime";
+import { format } from "silly-datetime";
 import { extname, join } from "path";
 import { Config } from "../../config/config";
 //创建目录
@@ -49,32 +49,34 @@ export class ToolsService {
   }
 
   //创建上传路径
-  // uploadFile(file) {
-  //
-  //   if (file) {
-  //     // 1、获取当前日期   20191013
-  //     let day = format(new Date(), 'YYYYMMDD');  //目录名称
-  //     let d = this.getTime();  //时间戳  当前图片的名称
-  //     // 2、根据日期创建目录
-  //     let dir = join(__dirname, `../../../public/${Config.uploadDir}`, day);
-  //     mkdirp.sync(dir);
-  //     let uploadDir = join(dir, d + extname(file.originalname));
-  //     // 3、实现上传
-  //     const writeImage = createWriteStream(uploadDir);
-  //     writeImage.write(file.buffer);
-  //     // 4、返回图片保存的地址
-  //     let saveDir = join(Config.uploadDir, day, d + extname(file.originalname));
-  //     return {
-  //       saveDir,
-  //       uploadDir
-  //     };
-  //   }else{
-  //     return {
-  //       saveDir:'',
-  //       uploadDir:""
-  //     }
-  //   }
-  // }
+  uploadFile(file) {
+
+    if (file) {
+      // 1、获取当前日期   20191013
+      let day = format(new Date(), 'YYYYMMDD');  //目录名称
+      let d = this.getTime();  //时间戳  当前图片的名称
+      // 2、根据日期创建目录
+      let dir = join(__dirname, `../../../public/${Config.uploadDir}`, day);
+      mkdirp.sync(dir);
+      //文件名
+      let uploadDir = join(dir, d + extname(file.originalname));
+      // 3、实现上传
+      const writeImage = createWriteStream(uploadDir);
+      writeImage.write(file.buffer);
+      // 4、返回图片保存的地址
+      let saveDir = join(Config.uploadDir, day, d + extname(file.originalname));
+      return {
+        saveDir,
+        uploadDir
+      };
+    }else{
+
+      return {
+        saveDir:'',
+        uploadDir:""
+      }
+    }
+  }
 
   jimpImg(target){
 

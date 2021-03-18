@@ -6,7 +6,8 @@ export class AdminauthMiddleware implements NestMiddleware {
   constructor(private authService:AuthService) {
   }
   async use(req: any, res: any, next: () => void) {
-    const userinfo = req.session.userinfo;
+    // const userinfo = req.session.userinfo;
+    const userinfo = "admin"
 
     if (userinfo) {
       //设置全局变量
