@@ -15,7 +15,6 @@ export class TypeTestController {
   @Get("type/:id")
   @ApiOperation({ summary: "测试项列表", operationId: "list" })
   async index(@Param("id") id: number, @Response() res) {
-    console.log(id)
     const data = await this.typeTestService.find({type_id: id});
     await this.toolsService.success(res, data)
   }
