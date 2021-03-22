@@ -13,6 +13,25 @@ const Jimp = require('jimp');
 
 @Injectable()
 export class ToolsService {
+
+  tree(data){
+    const map = {};
+    data.forEach( item => {
+      map[item.id] = item;//根据id建立哈希表
+    })
+    const val = [];
+    data.forEach( item => {
+      let parent = map[item.pid];
+      if (parent) {
+        (parent.children || (parent.children = [])).push(item);
+      } else {
+        val.push(item);
+      }
+    })
+    return val;
+  }
+
+
   getCaptcha(){
     return svgCaptcha.create({
       size: 2,
