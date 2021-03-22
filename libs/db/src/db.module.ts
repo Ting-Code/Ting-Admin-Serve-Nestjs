@@ -10,7 +10,7 @@ import { AccessService } from './models/auths/access/access.service';
 import { AccessEntity } from "@libs/db/models/auths/access/access.entity";
 import { AuthEntity } from "@libs/db/models/auths/auth/auth.entity";
 import { AuthService } from "@libs/db/models/auths/auth/auth.service";
-import { MaterielEntity } from "@libs/db/models/auths/materiel/materiel.entity";
+import { MaterielEntity } from "@libs/db/models/materials/materiel/materiel.entity";
 import { MatTypeService } from './models/materials/mat-type/mat-type.service';
 import { MatTypeEntity } from "@libs/db/models/materials/mat-type/mat-type.entity";
 import { TypeTestService } from './models/materials/type-test/type-test.service';

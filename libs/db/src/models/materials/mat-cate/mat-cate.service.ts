@@ -50,12 +50,7 @@ export class MatCateService {
   }
 
   async getModel() {
-    const posts = await getConnection()
-      .createQueryBuilder(MatCateEntity, 'access')
-      .leftJoinAndMapMany('access.son', MatCateEntity, 'son', 'access.id=son.module_id')
-      .where("access.module_id = :module_id",{ module_id: 0})
-      .getManyAndCount()
-    return posts
+    return this.Repository;
   }
 
 }
