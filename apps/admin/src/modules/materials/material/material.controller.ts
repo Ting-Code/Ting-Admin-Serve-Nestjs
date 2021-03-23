@@ -1,31 +1,66 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
 import { ToolsService } from "../../../common/tools/tools.service";
 import { Config } from "../../../config/config";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { join } from "path";
-import { MatTypeDto } from "@libs/db/models/materials/mat-type/mat-type.dto";
+import { MaterialService } from "@libs/db/models/materials/material/material.service";
+import { MaterialDto } from "@libs/db/models/materials/material/material.dto";
 
 @Controller(`${Config.adminPath}/material`)
 @ApiTags('material物料模块')
 export class MaterialController {
-  constructor(private toolsService:ToolsService){}
+  constructor(
+    private materialService:MaterialService,
+    private toolsService:ToolsService
+  ){}
 
   @Get()
-  @ApiOperation({ summary: "物料列表"})
-  index(){
-
-    return {}
+  @ApiOperation({ summary: "物料列表", operationId: "list" })
+  async index(@Response() res) {
+    const data = await this.materialService.find();
+    await this.toolsService.success(res, data)
   }
 
-  @Post('doAdd')
-  @ApiOperation({ summary: "物料列表"})
-  @UseInterceptors(FileInterceptor('focus_img'))//文件名称
-  doAdd(@Body() body, @UploadedFile() file){
-    console.log(body);
-    console.log(file);
-    let saveDir=this.toolsService.uploadFile(file);//封装上传方法返回路径
-    console.log(saveDir);
-    return saveDir;//返回路径
+  @Post()
+  @ApiOperation({ summary: "增加物料"})
+  async add(@Body() body:MaterialDto, @Response() res) {
+    try {
+      await this.materialService.add(body);
+      await this.toolsService.success(res)
+    }catch (error){
+      throw new BadRequestException({code:400,msg:"添加物料类型错误"})
+    }
+  }
+
+  @Get(":id")
+  @ApiOperation({ summary: "显示一个物料信息" })
+  async read(@Param("id") id: number, @Response() res) {
+    try {
+      const data = await this.materialService.find({id: id});
+      await this.toolsService.success(res, data)
+    } catch (err) {
+      await this.toolsService.error(res)
+    }
+  }
+
+  @Put(":id")
+  @ApiOperation({ summary: "修改物料信息"})
+  async edit(@Param("id") id: number, @Body() body:MaterialDto, @Response() res) {
+    try{
+      await this.materialService.update({ "id": id }, { ...body });
+      await this.toolsService.success(res)
+    }catch (err){
+      await this.toolsService.error(res, "修改物料类型错误，请重新修改", err)
+    }
+  }
+
+  @Delete(":id")
+  @ApiOperation({ summary: "删除物料信息"})
+  async delete(@Param("id") id: number, @Response() res) {
+    try {
+      await this.materialService.delete({ "id": id })
+      await this.toolsService.success(res)
+    } catch (err) {
+      await this.toolsService.error(res)
+    }
   }
 }

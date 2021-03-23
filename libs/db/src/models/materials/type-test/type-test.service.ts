@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
-import { getConnection, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { TypeTestDto } from "@libs/db/models/materials/type-test/type-test.dto";
 import { TypeTestEntity } from "@libs/db/models/materials/type-test/type-test.entity";
 
