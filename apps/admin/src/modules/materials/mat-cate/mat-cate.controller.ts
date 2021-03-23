@@ -99,6 +99,5 @@ export class MatCateController {
         await this.toolsService.error(res)
       }
     }
-
   }
 }

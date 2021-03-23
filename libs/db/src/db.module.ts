@@ -10,16 +10,17 @@ import { AccessService } from './models/auths/access/access.service';
 import { AccessEntity } from "@libs/db/models/auths/access/access.entity";
 import { AuthEntity } from "@libs/db/models/auths/auth/auth.entity";
 import { AuthService } from "@libs/db/models/auths/auth/auth.service";
-import { MaterielEntity } from "@libs/db/models/materials/materiel/materiel.entity";
 import { MatTypeService } from './models/materials/mat-type/mat-type.service';
 import { MatTypeEntity } from "@libs/db/models/materials/mat-type/mat-type.entity";
 import { TypeTestService } from './models/materials/type-test/type-test.service';
 import { TypeTestEntity } from "@libs/db/models/materials/type-test/type-test.entity";
 import { MatCateService } from './models/materials/mat-cate/mat-cate.service';
 import { MatCateEntity } from "@libs/db/models/materials/mat-cate/mat-cate.entity";
+import { MaterialService } from './models/materials/material/material.service';
+import { MaterialEntity } from "@libs/db/models/materials/material/material.entity";
 
-const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity])
-const Mssql = TypeOrmModule.forFeature([MaterielEntity], 'msSql')
+const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity])
+const Mssql = TypeOrmModule.forFeature([], 'msSql')
 
 @Global()
 @Module({
@@ -34,7 +35,7 @@ const Mssql = TypeOrmModule.forFeature([MaterielEntity], 'msSql')
       password: 'root',
       database: 'hmjd',
       // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity],
+      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity],
       synchronize: true,
     },),
     TypeOrmModule.forRoot({
@@ -45,11 +46,11 @@ const Mssql = TypeOrmModule.forFeature([MaterielEntity], 'msSql')
       username: 'TING',
       password: '1127163161',
       database: 'hmjd',
-      entities: [MaterielEntity],
+      entities: [],
       synchronize: true,
     },),
   ],
-  providers: [DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService, MatCateService],
+  providers: [DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService, MatCateService, MaterialService],
   exports: [Mssql, Entitys, DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService, MatCateService],
 })
 export class DbModule {}
