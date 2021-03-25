@@ -13,12 +13,13 @@ import { MaterialModule } from './modules/materials/material/material.module';
 import { MatTypeModule } from './modules/materials/mat-type/mat-type.module';
 import { TypeTestModule } from './modules/materials/type-test/type-test.module';
 import { MatCateModule } from './modules/materials/mat-cate/mat-cate.module';
+import { ToolsController } from './common/tools/tools.controller';
 
 
 
 @Module({
   imports: [AdminModule, LoginModule, RoleModule, AccessModule, AuthModule, MaterialModule, MatTypeModule, TypeTestModule, MatCateModule],
-  controllers: [AppController],
+  controllers: [AppController, ToolsController],
   providers: [AppService, ToolsService],
   exports: [ToolsService]
 })

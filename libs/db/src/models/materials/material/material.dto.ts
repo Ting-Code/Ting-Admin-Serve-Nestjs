@@ -10,6 +10,12 @@ export class MaterialDto {
   @ApiProperty({description: '分类id'})
   cate_id?: number;
 
+  @ApiProperty({description: '分类路径'})
+  cate_path?: string;
+
+  @ApiProperty({description: '补充描述'})
+  remake?: string;
+
   @ApiProperty({description: '物料名称'})
   mat_name?: string;
 

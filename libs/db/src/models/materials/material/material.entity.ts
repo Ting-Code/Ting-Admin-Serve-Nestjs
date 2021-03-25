@@ -169,6 +169,18 @@ export class MaterialEntity {
   })
   purchase: string;
 
+  @Column({
+    length: 255,
+    nullable: true
+  })
+  cate_path: string;
+
+  @Column({
+    length: 255,
+    nullable: true
+  })
+  remark: string;
+
   @Column('int',{
     default: 0
   })

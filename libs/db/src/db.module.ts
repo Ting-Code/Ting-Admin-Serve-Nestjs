@@ -1,6 +1,5 @@
 import { Global, Module } from "@nestjs/common";
 import { DbService } from './db.service';
-//导入TypeOrmModule
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminEntity } from "@libs/db/models/auths/admin/admin.entity";
 import { AdminService } from './models/auths/admin/admin.service';
@@ -18,8 +17,10 @@ import { MatCateService } from './models/materials/mat-cate/mat-cate.service';
 import { MatCateEntity } from "@libs/db/models/materials/mat-cate/mat-cate.entity";
 import { MaterialService } from './models/materials/material/material.service';
 import { MaterialEntity } from "@libs/db/models/materials/material/material.entity";
+import { MatTestEntity } from "@libs/db/models/materials/material/mat-test.entity";
+import { ImageEntity } from "@libs/db/models/materials/material/image.entity";
 
-const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity])
+const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity, MatTestEntity, ImageEntity])
 const Mssql = TypeOrmModule.forFeature([], 'msSql')
 
 @Global()
@@ -35,7 +36,7 @@ const Mssql = TypeOrmModule.forFeature([], 'msSql')
       password: 'root',
       database: 'hmjd',
       // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity],
+      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity, MatTestEntity, ImageEntity],
       synchronize: true,
     },),
     TypeOrmModule.forRoot({

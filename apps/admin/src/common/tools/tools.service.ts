@@ -96,7 +96,7 @@ export class ToolsService {
       }
     }
   }
-
+  //生成缩略图
   jimpImg(target){
 
     Jimp.read(target, (err, lenna) => {
@@ -111,10 +111,10 @@ export class ToolsService {
     Jimp.read(target, (err, lenna) => {
       if (err) throw err;
       lenna
-        .resize(100, 100) // resize
+        .resize(50, 50) // resize
         .quality(90) // 清晰度
         // .greyscale() // set greyscale
-        .write(target+"_100x100"+extname(target)); // 写入文件
+        .write(target+"_50x50"+extname(target)); // 写入文件
     });
   }
 }

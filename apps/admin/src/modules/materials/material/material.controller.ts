@@ -6,7 +6,7 @@ import { MaterialService } from "@libs/db/models/materials/material/material.ser
 import { MaterialDto } from "@libs/db/models/materials/material/material.dto";
 
 @Controller(`${Config.adminPath}/material`)
-@ApiTags('material物料模块')
+@ApiTags('Material物料模块')
 export class MaterialController {
   constructor(
     private materialService:MaterialService,
@@ -22,12 +22,12 @@ export class MaterialController {
 
   @Post()
   @ApiOperation({ summary: "增加物料"})
-  async add(@Body() body:MaterialDto, @Response() res) {
-    try {
-      await this.materialService.add(body);
+  async add(@Body() body:{mat:MaterialDto, imgList, testList}, @Response() res) {
+    const result = this.materialService.addMat(body)
+    if(result){
       await this.toolsService.success(res)
-    }catch (error){
-      throw new BadRequestException({code:400,msg:"添加物料类型错误"})
+    }else {
+      await this.toolsService.error(res)
     }
   }
 
@@ -49,7 +49,7 @@ export class MaterialController {
       await this.materialService.update({ "id": id }, { ...body });
       await this.toolsService.success(res)
     }catch (err){
-      await this.toolsService.error(res, "修改物料类型错误，请重新修改", err)
+      await this.toolsService.error(res, "修改物料错误，请重新修改", err)
     }
   }
 
