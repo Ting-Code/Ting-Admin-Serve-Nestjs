@@ -26,21 +26,21 @@ export class MaterialService {
     let { mat, imgList, testList} = body
     try {
       let result = await this.add( mat );
-      if (result[0].id && imgList && imgList instanceof Array) {
-        for (let i = 0; i < imgList.length; i++) {
+      if (result.id && imgList && imgList instanceof Array) {
+        console.log("到这里来")
+        for (let i=0; i<imgList.length; i++) {
           await this.addImg({
-            mat_id: result[0].id,
+            mat_id: result.id,
             img_url: imgList[i]
           })
         }
       }
       //3、增加商品属性
-      if (result[0].id && testList && testList instanceof Array) {
-
+      if (result.id && testList && testList instanceof Array) {
         for (let i = 0; i < testList.length; i++) {
           //获取当前 商品类型id对应的商品类型属性
           await this.addTest({
-            mat_id: result[0].id,
+            mat_id: result.id,
             test: testList[i].test,
             requ: testList[i].requ,
             result: testList[i].result,
@@ -66,8 +66,7 @@ export class MaterialService {
 
   async add(json: MaterialDto){
     try {
-      await this.Repository.save(json);
-      return [];
+      return  await this.Repository.save(json);
     } catch (error) {
       return null;
     }

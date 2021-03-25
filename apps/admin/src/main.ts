@@ -12,6 +12,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   //配置静态资源目录
   app.useStaticAssets(path.join(__dirname, '..', 'public'));
+
+  app.useStaticAssets('public')
+  // 虚拟目录
+  app.useStaticAssets('public',{
+    prefix: '/static/'
+  })
+
   //配置cookie中间件
   app.use(cookieParser("this signed cookies"));
   //配置session的中间件
