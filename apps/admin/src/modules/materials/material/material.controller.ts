@@ -13,11 +13,11 @@ export class MaterialController {
     private toolsService:ToolsService
   ){}
 
-  @Get('audit')
+  @Get('audit/:id')
   @ApiOperation({ summary: "物料列表"})
-  async index(@Response() res) {
+  async index(@Response() res, @Param("id") id: number) {
     const data = await this.materialService.find({
-      where: { is_conclusion: 0},
+      where: { is_conclusion: id},
       order: {
         id: 'DESC',
       }
@@ -55,6 +55,17 @@ export class MaterialController {
   async edit(@Param("id") id: number, @Body() body:{mat: MaterialDto, testList}, @Response() res) {
     try{
       await this.materialService.update(id, body)
+      await this.toolsService.success(res)
+    }catch (err){
+      await this.toolsService.error(res, "修改物料错误，请重新修改", err)
+    }
+  }
+
+  @Put("audit/:id")
+  @ApiOperation({ summary: "修改物料信息"})
+  async audit(@Param("id") id: number, @Body() body:MaterialDto, @Response() res) {
+    try{
+      await this.materialService.updateAudit(id, body)
       await this.toolsService.success(res)
     }catch (err){
       await this.toolsService.error(res, "修改物料错误，请重新修改", err)

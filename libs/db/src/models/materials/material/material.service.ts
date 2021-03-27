@@ -99,8 +99,8 @@ export class MaterialService {
     }
   }
 
-  async getModel() {
-    return this.Repository;
+  async updateAudit(id, body: MaterialDto) {
+    return this.Repository.update({id: id}, body);
   }
 
 
