@@ -27,7 +27,6 @@ export class MaterialService {
     try {
       let result = await this.add( mat );
       if (result.id && imgList && imgList instanceof Array) {
-        console.log("到这里来")
         for (let i=0; i<imgList.length; i++) {
           await this.addImg({
             mat_id: result.id,
@@ -56,7 +55,7 @@ export class MaterialService {
 
 
   //如查找数据
-  async find(json:MaterialDto = {}){
+  async find(json:any = {}){
     try {
       return await this.Repository.find(json);
     }catch (err){
@@ -72,10 +71,21 @@ export class MaterialService {
     }
   }
 
-  async update(json1:MaterialDto,json2:MaterialDto){
+  async update(id:number, body:{ mat:MaterialDto, testList:Array<object>|null }){
     try {
-      return  await this.Repository.update(json1,json2);
-
+    const {mat, testList} = body
+    await this.Repository.update({id:id}, mat);
+    await this.deleteTest({mat_id: id})
+    testList.map(async (v:any) => {
+      await this.addTest({
+        mat_id: id,
+        test: v.test,
+        requ: v.requ,
+        result: v.result,
+        is_pass: v.is_pass
+      })
+    })
+      return true
     } catch (error) {
       return null;
     }
@@ -105,21 +115,13 @@ export class MaterialService {
 
   async addTest(json: any){
     try {
-      await this.testRepository.save(json);
+      await this.testRepository.save(json)
       return [];
     } catch (error) {
       return null;
     }
   }
 
-  async updateTest(json1: any,json2: any){
-    try {
-      return  await this.testRepository.update(json1,json2);
-
-    } catch (error) {
-      return null;
-    }
-  }
 
   async deleteTest(json: any){
     try {
@@ -132,7 +134,7 @@ export class MaterialService {
   //如查找数据
   async findImg(json:any = {}){
     try {
-      return await this.testRepository.find(json);
+      return await this.imgRepository.find(json);
     }catch (err){
       return err;
     }
@@ -163,7 +165,5 @@ export class MaterialService {
       return null;
     }
   }
-
-
 
 }

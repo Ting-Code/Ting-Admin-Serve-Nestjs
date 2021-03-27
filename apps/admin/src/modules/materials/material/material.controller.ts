@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
 import { ToolsService } from "../../../common/tools/tools.service";
 import { Config } from "../../../config/config";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -13,10 +13,15 @@ export class MaterialController {
     private toolsService:ToolsService
   ){}
 
-  @Get()
-  @ApiOperation({ summary: "物料列表", operationId: "list" })
+  @Get('audit')
+  @ApiOperation({ summary: "物料列表"})
   async index(@Response() res) {
-    const data = await this.materialService.find();
+    const data = await this.materialService.find({
+      where: { is_conclusion: 0},
+      order: {
+        id: 'DESC',
+      }
+    });
     await this.toolsService.success(res, data)
   }
 
@@ -35,7 +40,10 @@ export class MaterialController {
   @ApiOperation({ summary: "显示一个物料信息" })
   async read(@Param("id") id: number, @Response() res) {
     try {
-      const data = await this.materialService.find({id: id});
+      const mat = await this.materialService.find({id: id});
+      const testList = await this.materialService.findTest({mat_id: id});
+      const imgList = await this.materialService.findImg({mat_id: id});
+      const data = { mat, testList, imgList }
       await this.toolsService.success(res, data)
     } catch (err) {
       await this.toolsService.error(res)
@@ -44,9 +52,9 @@ export class MaterialController {
 
   @Put(":id")
   @ApiOperation({ summary: "修改物料信息"})
-  async edit(@Param("id") id: number, @Body() body:MaterialDto, @Response() res) {
+  async edit(@Param("id") id: number, @Body() body:{mat: MaterialDto, testList}, @Response() res) {
     try{
-      await this.materialService.update({ "id": id }, { ...body });
+      await this.materialService.update(id, body)
       await this.toolsService.success(res)
     }catch (err){
       await this.toolsService.error(res, "修改物料错误，请重新修改", err)
