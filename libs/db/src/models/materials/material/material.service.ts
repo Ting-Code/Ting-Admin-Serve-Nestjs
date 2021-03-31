@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { MaterialEntity } from "@libs/db/models/materials/material/material.entity";
 import { MaterialDto } from "@libs/db/models/materials/material/material.dto";
 import { MatTestEntity } from "@libs/db/models/materials/material/mat-test.entity";
@@ -98,6 +98,26 @@ export class MaterialService {
       return null;
     }
   }
+
+  async getModule(skip,keyword,cate_id ){
+    if(cate_id === 0){
+      return  await this.Repository.findAndCount({
+        where: { mat_name: Like('%' + keyword + '%'), is_conclusion: 1},
+        order: { mat_name: "DESC" },
+        take: 10,
+        skip: skip
+      });
+    } else {
+      return  await this.Repository.findAndCount({
+        where: { mat_name: Like('%' + keyword + '%'), cate_id: cate_id, is_conclusion: 1 },
+        order: { mat_name: "DESC" },
+        take: 10,
+        skip: skip
+      });
+    }
+  }
+
+
 
   async updateAudit(id, body: MaterialDto) {
     return this.Repository.update({id: id}, body);

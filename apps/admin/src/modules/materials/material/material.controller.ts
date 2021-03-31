@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Response } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Response } from "@nestjs/common";
 import { ToolsService } from "../../../common/tools/tools.service";
 import { Config } from "../../../config/config";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -23,6 +23,16 @@ export class MaterialController {
       }
     });
     await this.toolsService.success(res, data)
+  }
+
+  @Get()
+  @ApiOperation({ summary: "物料过审分类列表"})
+  async list(@Response() res, @Query() query) {
+    const skip = (parseInt(query.page)-1)*10 || 0
+    const keyword = query.keyword || ''
+    const cate_id = parseInt(query.cate) || 0
+    const [ data, total ]  = await this.materialService.getModule(skip, keyword, cate_id)
+    await this.toolsService.success(res, { data, total })
   }
 
   @Post()
