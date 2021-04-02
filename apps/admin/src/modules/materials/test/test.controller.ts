@@ -1,8 +1,8 @@
-import { BadRequestException, Controller, Get, Response } from "@nestjs/common";
-import { Crud, CrudController } from "../../../common/decorators/crud.decorator";
+import { Controller } from "@nestjs/common";
 import { TestService } from "@libs/db/models/materials/test/test.service";
 import { TestDto } from "@libs/db/models/materials/test/test.dto";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
+import { CrudController, Crud } from 'nestjs-tyoeorm-crud'
 
 @Controller('test')
 @Crud({model: TestService, dto:TestDto})
