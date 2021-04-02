@@ -19,8 +19,9 @@ import { MaterialService } from './models/materials/material/material.service';
 import { MaterialEntity } from "@libs/db/models/materials/material/material.entity";
 import { MatTestEntity } from "@libs/db/models/materials/material/mat-test.entity";
 import { ImageEntity } from "@libs/db/models/materials/material/image.entity";
+import { TestEntity } from "@libs/db/models/materials/test/test.entity";
 
-const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity, MatTestEntity, ImageEntity])
+const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity, MatTestEntity, ImageEntity, TestEntity])
 const Mssql = TypeOrmModule.forFeature([], 'msSql')
 
 @Global()
@@ -36,7 +37,7 @@ const Mssql = TypeOrmModule.forFeature([], 'msSql')
       password: 'root',
       database: 'hmjd',
       // entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity, MatTestEntity, ImageEntity],
+      entities: [AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity, MatTestEntity, ImageEntity, TestEntity],
       synchronize: true,
     },),
     TypeOrmModule.forRoot({
