@@ -20,6 +20,7 @@ import { MaterialEntity } from "@libs/db/models/materials/material/material.enti
 import { MatTestEntity } from "@libs/db/models/materials/material/mat-test.entity";
 import { ImageEntity } from "@libs/db/models/materials/material/image.entity";
 import { TestEntity } from "@libs/db/models/materials/test/test.entity";
+import { TestService } from './models/materials/test/test.service';
 
 const Entitys = TypeOrmModule.forFeature([AdminEntity, RoleEntity, AccessEntity, AuthEntity, MatTypeEntity, TypeTestEntity, MatCateEntity, MaterialEntity, MatTestEntity, ImageEntity, TestEntity])
 const Mssql = TypeOrmModule.forFeature([], 'msSql')
@@ -52,7 +53,7 @@ const Mssql = TypeOrmModule.forFeature([], 'msSql')
       synchronize: true,
     },),
   ],
-  providers: [DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService, MatCateService, MaterialService],
-  exports: [Mssql, Entitys, DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService, MatCateService],
+  providers: [DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService, MatCateService, MaterialService, TestService],
+  exports: [Mssql, Entitys, DbService, AdminService, RoleService, AccessService, AuthService, MatTypeService, TypeTestService, MatCateService, TestService],
 })
 export class DbModule {}
